@@ -1,16 +1,23 @@
 import assert from 'node:assert/strict';
-import { cpSync, mkdtempSync, existsSync, rmSync, readdirSync, mkdirSync } from 'node:fs';
+import { copyFileSync, mkdtempSync, existsSync, rmSync, readdirSync, mkdirSync, lstatSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js';
 const folder = mkdtempSync(join(tmpdir(), 'Pages Native clean — '));
 let client;
+function copyTree(source, destination) {
+  const entry = lstatSync(source);
+  if (entry.isDirectory()) {
+    mkdirSync(destination, { recursive: true });
+    for (const name of readdirSync(source)) copyTree(join(source, name), join(destination, name));
+  } else if (entry.isFile()) copyFileSync(source, destination);
+  else throw new Error(`Unexpected plugin entry: ${source}`);
+}
 try {
   const source = resolve(process.argv[2] ?? 'plugins/pages-native');
   const pluginRoot = join(folder, 'plugin');
-  mkdirSync(pluginRoot, { recursive: true });
-  for (const name of readdirSync(source)) cpSync(join(source, name), join(pluginRoot, name), { recursive: true });
+  copyTree(source, pluginRoot);
   assert.equal(existsSync(join(pluginRoot, 'node_modules')), false);
   const serverPath = join(pluginRoot, 'dist', 'server.mjs');
   assert.ok(existsSync(serverPath), `Copied server is missing: ${JSON.stringify(readdirSync(pluginRoot))}`);
