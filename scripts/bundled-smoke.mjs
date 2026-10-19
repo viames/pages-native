@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { cpSync, mkdtempSync, existsSync, rmSync } from 'node:fs';
+import { cpSync, mkdtempSync, existsSync, rmSync, readdirSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
@@ -7,8 +7,10 @@ import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js'
 const folder = mkdtempSync(join(tmpdir(), 'Pages Native clean — '));
 cpSync(resolve(process.argv[2] ?? 'plugins/pages-native'), join(folder, 'plugin'), { recursive: true });
 assert.equal(existsSync(join(folder, 'node_modules')), false);
+const serverPath = join(folder, 'plugin', 'dist', 'server.mjs');
+assert.ok(existsSync(serverPath), `Copied server is missing: ${JSON.stringify({ folder: readdirSync(folder), plugin: readdirSync(join(folder, 'plugin')) })}`);
 const client = new Client({ name: 'pages-clean-contract', version: '1.0.0' });
-const transport = new StdioClientTransport({ command: process.execPath, args: [join(folder, 'plugin/dist/server.mjs')], cwd: folder });
+const transport = new StdioClientTransport({ command: process.execPath, args: [serverPath], cwd: folder });
 try {
   await client.connect(transport); const listed = await client.listTools(); assert.equal(listed.tools.length, 28);
   const invalid = await client.callTool({ name: 'pages_close', arguments: { document_id: 'not-open', save: false, unexpected: true } });
