@@ -1,0 +1,47 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "pages-native",
+  "version": "0.1.0",
+  "description": "Native Apple Pages documents through the macOS scripting API. Preview verified on Pages 14.5.",
+  "author": {
+    "name": "Viames Marino",
+    "url": "https://github.com/viames"
+  },
+  "license": "MIT",
+  "keywords": [
+    "apple-pages",
+    "pages",
+    "macos",
+    "codex",
+    "documents",
+    "native",
+    "mcp"
+  ],
+  "extensions": {
+    "com.openai": {
+      "requires_local_executor": true,
+      "onboardingSkill": "./skills/setup/SKILL.md",
+      "interface": {
+        "displayName": "Pages Native",
+        "shortDescription": "Work directly with Apple Pages",
+        "longDescription": "Native .pages documents, guarded rich-text edits, native templates and existing placeholders, tables and formulas, objects, explicit exports and PDF/PNG previews. Requires macOS, Apple Pages, Node.js 22+ and Automation permission. Preview verified on one Mac with Pages 14.5. No Accessibility or Word conversion backend.",
+        "developerName": "Viames Marino",
+        "category": "Productivity",
+        "capabilities": [
+          "Read",
+          "Write"
+        ],
+        "defaultPrompt": [
+          "Create a native Pages report and show its PDF preview.",
+          "Preview a text replacement in this Pages document while preserving surrounding formatting."
+        ],
+        "websiteURL": "https://viames.github.io/pages-native/",
+        "privacyPolicyURL": "https://viames.github.io/pages-native/privacy.html",
+        "termsOfServiceURL": "https://viames.github.io/pages-native/terms.html",
+        "brandColor": "#2267B3"
+      }
+    }
+  },
+  "homepage": "https://viames.github.io/pages-native/",
+  "repository": "https://github.com/viames/pages-native"
+}

@@ -1,0 +1,6 @@
+node_modules/
+artifacts/
+*.pages
+*.pdf
+.DS_Store
+.mcpregistry_*

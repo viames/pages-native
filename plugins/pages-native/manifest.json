@@ -1,0 +1,51 @@
+{
+  "manifest_version": "0.3",
+  "name": "pages-native",
+  "display_name": "Pages Native",
+  "version": "0.1.0",
+  "description": "Native Apple Pages documents through the macOS scripting API. Preview verified on Pages 14.5.",
+  "long_description": "Native .pages documents, guarded rich-text edits, native templates and existing placeholders, tables and formulas, objects, explicit exports and PDF/PNG previews. Requires macOS, Apple Pages, Node.js 22+ and Automation permission. Preview verified on one Mac with Pages 14.5. No Accessibility or Word conversion backend.",
+  "author": {
+    "name": "Viames Marino",
+    "url": "https://github.com/viames"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/viames/pages-native.git"
+  },
+  "homepage": "https://viames.github.io/pages-native/",
+  "documentation": "https://github.com/viames/pages-native#readme",
+  "support": "https://github.com/viames/pages-native/issues",
+  "server": {
+    "type": "node",
+    "entry_point": "dist/server.mjs",
+    "mcp_config": {
+      "command": "node",
+      "args": [
+        "${__dirname}/dist/server.mjs"
+      ]
+    }
+  },
+  "tools_generated": true,
+  "keywords": [
+    "apple-pages",
+    "pages",
+    "macos",
+    "codex",
+    "documents",
+    "native",
+    "mcp"
+  ],
+  "license": "MIT",
+  "privacy_policies": [
+    "https://viames.github.io/pages-native/privacy.html"
+  ],
+  "compatibility": {
+    "platforms": [
+      "darwin"
+    ],
+    "runtimes": {
+      "node": ">=22"
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "pages-native": {
+      "command": "node",
+      "args": [
+        "${PLUGIN_ROOT}/dist/server.mjs"
+      ]
+    }
+  }
+}

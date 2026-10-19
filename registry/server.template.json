@@ -1,0 +1,21 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.viames/pages-native",
+  "title": "Pages Native",
+  "description": "Native Apple Pages on macOS: guarded text edits, templates, tables and PDF previews.",
+  "repository": {
+    "url": "https://github.com/viames/pages-native",
+    "source": "github"
+  },
+  "websiteUrl": "https://viames.github.io/pages-native/",
+  "version": "0.1.0",
+  "packages": [
+    {
+      "registryType": "mcpb",
+      "identifier": "https://github.com/viames/pages-native/releases/download/v0.1.0/pages-native-0.1.0.mcpb",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+name: Publish MCP Registry
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing release tag with verified MCPB and server.json assets
+        required: true
+        default: v0.1.0
+permissions:
+  contents: read
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.tag }}
+      - name: Require verified native release evidence
+        run: |
+          python3 - <<'PYCODE'
+          import json, pathlib
+          evidence = json.loads(pathlib.Path('docs/native-verification.json').read_text())
+          package = json.loads(pathlib.Path('package.json').read_text())
+          assert evidence['status'] == 'passed', 'Native acceptance has not passed'
+          assert evidence['native_tests_executed'] is True
+          assert evidence['verified_hosts'] >= 1
+          assert evidence['plugin_version'] == package['version']
+          PYCODE
+      - name: Download the public release metadata and bundle
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ inputs.tag }}
+        run: |
+          gh release download "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --pattern server.json --pattern '*.mcpb' --pattern SHA256SUMS
+          sha256sum --check --ignore-missing SHA256SUMS
+          python3 - <<'PY'
+          import os, json, pathlib, hashlib
+          m = json.loads(pathlib.Path('server.json').read_text())
+          assert os.environ['RELEASE_TAG'] == 'v' + m['version']
+          assert m['name'] == 'io.github.viames/pages-native'
+          p = m['packages'][0]
+          filename = f"pages-native-{m['version']}.mcpb"
+          assert p['identifier'] == f"https://github.com/viames/pages-native/releases/download/{os.environ['RELEASE_TAG']}/{filename}"
+          assert hashlib.sha256(pathlib.Path(filename).read_bytes()).hexdigest() == p['fileSha256']
+          PY
+      - name: Download pinned official publisher and verify checksum
+        run: |
+          curl --fail --location --output publisher.tar.gz https://github.com/modelcontextprotocol/registry/releases/download/v1.8.1/mcp-publisher_linux_amd64.tar.gz
+          curl --fail --location --output publisher-checksums.txt https://github.com/modelcontextprotocol/registry/releases/download/v1.8.1/registry_1.8.1_checksums.txt
+          expected=$(awk '$2 == "mcp-publisher_linux_amd64.tar.gz" { print $1 }' publisher-checksums.txt)
+          test -n "$expected"
+          printf '%s  publisher.tar.gz\n' "$expected" | sha256sum --check
+          tar xzf publisher.tar.gz mcp-publisher
+      - name: Authenticate using short-lived GitHub identity
+        run: ./mcp-publisher login github-oidc
+      - name: Publish verified release to the official MCP Registry
+        run: ./mcp-publisher publish server.json

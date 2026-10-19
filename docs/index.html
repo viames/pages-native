@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Pages Native is a free, open source Codex plugin and MCP server for editing real Apple Pages documents on macOS through Apple's native scripting API.">
+<title>Pages Native — native Apple Pages for Codex and MCP</title>
+<style>
+  :root{color-scheme:light dark;font:17px/1.55 system-ui,-apple-system,sans-serif}
+  body{margin:0;background:#f7f9fc;color:#1e3048}
+  main,footer{max-width:1000px;margin:auto;padding:30px 24px}
+  header{display:flex;align-items:center;gap:18px}
+  h1{font-size:clamp(2.5rem,7vw,4.5rem);line-height:1.05;letter-spacing:-.04em;margin:32px 0 16px;color:#145caa}
+  h2{font-size:1.35rem;margin:0 0 14px}
+  p{max-width:690px}
+  .lead{font-size:1.25rem;max-width:780px}
+  .status{margin:26px 0;padding:14px 18px;border-left:4px solid #2a77c4;background:#e9f2fc;border-radius:5px}
+  .actions{display:flex;flex-wrap:wrap;gap:12px;margin:26px 0 44px}
+  .actions a{padding:11px 17px;border-radius:8px;background:#1768b8;color:#fff;text-decoration:none;font-weight:650}
+  .actions a.secondary{background:#e6edf6;color:#155a9f}
+  section{margin:42px 0}
+  .grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(250px,380px);gap:32px;align-items:start}
+  figure{margin:0;padding:14px;border-radius:14px;background:#fff;box-shadow:0 8px 36px #1a395019}
+  figure img{display:block;width:100%;height:auto;border:1px solid #e8edf3}
+  figcaption{font-size:.82rem;color:#596b7d;margin-top:10px}
+  pre{overflow:auto;padding:18px;border-radius:9px;background:#162a42;color:#ecf6ff}
+  a{color:#125fa9}
+  footer{border-top:1px solid #dce5ef;font-size:.85rem;color:#5b6c7e}
+  @media(max-width:720px){.grid{grid-template-columns:1fr}figure{max-width:440px}}
+  @media(prefers-color-scheme:dark){body{background:#0d1928;color:#e5edf7}h1{color:#80baf5}.status{background:#142c45}.actions a.secondary{background:#20364f;color:#c6e2ff}figure{background:#17283a;box-shadow:none}figure img{border-color:#294057}pre{background:#081321}a{color:#8cc5ff}footer{border-color:#294057;color:#a4b4c7}}
+</style>
+<main>
+  <header><img src="assets/pages-native.svg" width="64" height="64" alt="Pages Native icon"><strong>Pages Native</strong></header>
+  <h1>Apple Pages, natively.</h1>
+  <p class="lead">A free, open source Codex plugin and MCP server for creating and editing real <code>.pages</code> documents on your Mac.</p>
+  <p class="status"><strong>Preview 0.1.0.</strong> Native acceptance passed on one Mac with Pages 14.5 and macOS 27.0.1. Compatibility on other versions remains unverified.</p>
+  <div class="actions"><a href="https://github.com/viames/pages-native/releases/tag/v0.1.0">Download 0.1.0</a><a class="secondary" href="https://github.com/viames/pages-native">Source &amp; documentation</a></div>
+  <div class="grid">
+    <section><h2>Work in the original format</h2><p>Pages Native uses Apple's scripting API to edit documents, text, existing tagged placeholders, tables, formulas, shapes and images. It can export PDF, RTF, EPUB, text and Word copies when requested. The working document remains in native Pages format.</p><p>Rich-text edits can be previewed and applied with a revision check. Opaque copies preserve custom templates. A native PDFKit preview helps inspect the finished page.</p><p>Requires macOS, Apple Pages, Node.js 22+ and Automation permission. It uses no Accessibility driver, clipboard automation, Word editing backend or private Pages file parser.</p></section>
+    <figure><img src="assets/demo.png" width="848" height="1200" alt="Synthetic Pages document showing a blue heading, expense table with calculated total and text item"><figcaption>Real Pages 14.5 output from a synthetic native acceptance test.</figcaption></figure>
+  </div>
+  <section><h2>Install in Codex</h2><pre><code>codex plugin marketplace add viames/pages-native
+codex plugin add pages-native@viames-pages</code></pre><p>Start a new local Codex task and run the plugin's setup skill. <a href="https://github.com/viames/pages-native/blob/main/docs/VERIFICATION.md">Verification and limits</a> explain what was tested on a real Mac.</p></section>
+  <p><a href="privacy.html">Privacy</a> · <a href="terms.html">License and terms</a></p>
+</main>
+<footer>© 2026 Viames Marino · MIT License · Apple and Pages are trademarks of Apple Inc. This independent project is not affiliated with Apple.</footer>
+</html>

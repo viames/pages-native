@@ -1,0 +1,16 @@
+{
+  "status": "passed",
+  "plugin_version": "0.1.0",
+  "native_tests_executed": true,
+  "verified_hosts": 1,
+  "verified_on": "2026-10-19",
+  "macos_version": "27.0.1",
+  "darwin_release": "27.0.0",
+  "pages_version": "14.5",
+  "node_version": "v24.19.0",
+  "tool_count": 28,
+  "native_check_count": 34,
+  "fixture_scope": "new synthetic .pages documents in a private temporary directory",
+  "visual_preview_inspected": true,
+  "remaining_limits": ["other Macs and Pages versions", "existing chart geometry on a user-supplied document", "placeholder tag mutation rejected by Pages 14.5"]
+}

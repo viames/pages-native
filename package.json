@@ -1,0 +1,32 @@
+{
+  "name": "pages-native",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Native Apple Pages documents for Codex and MCP",
+  "author": "Viames Marino",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "test:native": "node scripts/native-smoke.mjs",
+    "test:bundle": "node scripts/bundled-smoke.mjs",
+    "package": "node scripts/package.mjs"
+  },
+  "devDependencies": {
+    "@modelcontextprotocol/sdk": "1.32.1",
+    "esbuild": "0.28.2",
+    "zod": "4.6.7"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/viames/pages-native.git"
+  },
+  "homepage": "https://viames.github.io/pages-native/",
+  "bugs": {
+    "url": "https://github.com/viames/pages-native/issues"
+  }
+}
