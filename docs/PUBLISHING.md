@@ -2,7 +2,20 @@
 
 Author: Viames Marino. License: MIT. Product: Pages Native 0.1.0 preview.
 
-**Native acceptance passed on one Mac running Pages 14.5.** The source evidence is in `native-verification.json` and the test scope in [verification](VERIFICATION.md). Publication still requires package and public-download checks.
+**Preview 0.1.0 is published and installed locally.** Native acceptance passed on one Mac running Pages 14.5. The source evidence is in `native-verification.json` and the test scope in [verification](VERIFICATION.md).
+
+Publication status as of 2026-10-19:
+
+| Channel | Status |
+| --- | --- |
+| [GitHub repository](https://github.com/viames/pages-native) | Public; `v0.1.0` release with checksummed plugin ZIP, marketplace ZIP, MCPB, and registry metadata. Fresh downloads and SHA-256 checks passed. |
+| [Project site](https://viames.github.io/pages-native/) | Public GitHub Pages site with preview and release links. |
+| [Official MCP Registry](https://registry.modelcontextprotocol.io/v0.1/servers/io.github.viames%2Fpages-native/versions/0.1.0) | Version `0.1.0` active. |
+| [MCP Servers](https://mcpservers.org/submit) | Free submission accepted; review within 2 weeks. A public listing is pending. |
+| [MCP Market](https://mcpmarket.com/submit) | Free queue accepted; site estimated 4–6 weeks. A public listing is pending. |
+| [Glama](https://glama.ai/mcp/servers) | Submitted for source-server review; the form closed without a durable receipt or public listing. Its later Docker verification may be incompatible with this macOS/Pages-dependent server. |
+
+The plugin is installed and enabled in Codex as `pages-native@viames-pages` at version `0.1.0`. Open a new local Codex chat after installation so its skills and MCP tools are discovered.
 
 1. Complete native acceptance and inspect real PDF/PNG output using isolated synthetic fixtures. Record actual evidence and limits. Done for the first release on one Mac.
 2. Run portable tests, build, skill/manifest/schema validation and deterministic packaging. Test a clean extracted distributable without runtime npm dependencies.
