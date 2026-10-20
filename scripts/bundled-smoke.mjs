@@ -23,7 +23,7 @@ try {
   assert.ok(existsSync(serverPath), `Copied server is missing: ${JSON.stringify(readdirSync(pluginRoot))}`);
   client = new Client({ name: 'pages-clean-contract', version: '1.0.0' });
   const transport = new StdioClientTransport({ command: process.execPath, args: [serverPath], cwd: folder });
-  await client.connect(transport); const listed = await client.listTools(); assert.equal(listed.tools.length, 28);
+  await client.connect(transport); const listed = await client.listTools(); assert.equal(listed.tools.length, 36);
   const invalid = await client.callTool({ name: 'pages_close', arguments: { document_id: 'not-open', save: false, unexpected: true } });
   assert.equal(invalid.isError, true); assert.match(invalid.content[0].text, /-32602|INVALID_ARGUMENT/);
   console.log(JSON.stringify({ passed: true, native_app_called: false, tool_count: listed.tools.length, verified: ['bundled stdio initialize/list/schema rejection', 'path with spaces and Unicode', 'no runtime node_modules'] }, null, 2));

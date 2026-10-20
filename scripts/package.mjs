@@ -5,9 +5,10 @@ import { createHash } from 'node:crypto';
 
 const plugin = 'plugins/pages-native';
 cpSync('LICENSE', `${plugin}/LICENSE`);
-for (const file of ['PUBLISHING.md', 'VERIFICATION.md', 'CAPABILITIES.md', 'native-verification.json']) cpSync(`docs/${file}`, `${plugin}/docs/${file}`);
+cpSync('README.md', `${plugin}/README.md`);
+for (const file of ['PRIVACY.md', 'PUBLISHING.md', 'VERIFICATION.md', 'CAPABILITIES.md', 'SEARCH-AND-TEMPLATES.md', 'RECIPES.md', 'BATCH-AND-HISTORY.md', 'COMPATIBILITY.md', 'compatibility-matrix.json', 'native-verification.json']) cpSync(`docs/${file}`, `${plugin}/docs/${file}`);
 mkdirSync(`${plugin}/docs/assets`, { recursive: true });
-cpSync('docs/assets/demo.png', `${plugin}/docs/assets/demo.png`);
+for (const image of ['demo.png', 'composition.png', 'typed-fields.png', 'batch.png']) cpSync(`docs/assets/${image}`, `${plugin}/docs/assets/${image}`);
 const version = JSON.parse(readFileSync(`${plugin}/plugin.json`)).version;
 if (version !== JSON.parse(readFileSync('package.json')).version) throw new Error('Version mismatch.');
 if (version !== JSON.parse(readFileSync(`${plugin}/manifest.json`)).version) throw new Error('MCPB version mismatch.');

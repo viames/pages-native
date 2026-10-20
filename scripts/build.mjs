@@ -1,12 +1,13 @@
 import { build } from 'esbuild';
-import { readFileSync, writeFileSync } from 'node:fs';
+import { readFileSync, writeFileSync, copyFileSync } from 'node:fs';
 
 const result = await build({
-  entryPoints: ['plugins/pages-native/src/server.mjs'],
-  outfile: 'plugins/pages-native/dist/server.mjs', bundle: true, platform: 'node', target: 'node22', format: 'esm',
+  entryPoints: ['plugins/pages-native/src/runtime.mjs'],
+  outfile: 'plugins/pages-native/dist/runtime.mjs', bundle: true, platform: 'node', target: 'node22', format: 'esm',
   banner: { js: "import { createRequire as __createRequire } from 'node:module'; const require = __createRequire(import.meta.url);" },
   legalComments: 'eof', metafile: true
 });
+copyFileSync('plugins/pages-native/src/server.mjs', 'plugins/pages-native/dist/server.mjs');
 writeFileSync('plugins/pages-native/dist/build-meta.json', JSON.stringify(result.metafile, null, 2));
 
 const licenses = [...new Set(Object.keys(result.metafile.inputs).filter(p => p.startsWith('node_modules/')).map(p => {

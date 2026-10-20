@@ -1,16 +1,30 @@
 {
   "status": "passed",
-  "plugin_version": "0.1.0",
+  "plugin_version": "0.5.0",
+  "report_id": "ac8cc89f-8f58-4c1f-bcf9-852993f6a519",
   "native_tests_executed": true,
   "verified_hosts": 1,
-  "verified_on": "2026-10-19",
+  "verified_on": "2026-10-20",
   "macos_version": "27.0.1",
   "darwin_release": "27.0.0",
   "pages_version": "14.5",
   "node_version": "v24.19.0",
-  "tool_count": 28,
-  "native_check_count": 34,
-  "fixture_scope": "new synthetic .pages documents in a private temporary directory",
+  "tool_count": 36,
+  "native_check_count": 76,
+  "portable_test_count": 70,
+  "fixture_scope": "new synthetic .pages documents, batch outputs and local JSON recipe history in a private temporary directory",
   "visual_preview_inspected": true,
-  "remaining_limits": ["other Macs and Pages versions", "existing chart geometry on a user-supplied document", "placeholder tag mutation rejected by Pages 14.5"]
+  "bundle_sha256": "5cf24e81d1576f8197f9da0f514614f683eaa5c530135a803644aa7bd3260bc4",
+  "native_sha256": "4d7554fd1e6ff8668393dabe40e21a83593bfa9f5d31f926d0e2c3091025b0fb",
+  "harness_sha256": "ed05eec72166a08d4e37a0f467c087e2a8d6e205bbe5536c008636304da2961c",
+  "remaining_limits": [
+    "other Macs and Pages versions",
+    "existing chart geometry on a user-supplied document",
+    "Pages coerces boolean cell values to numeric 0/1 and does not support checkbox controls; both are rejected before writing",
+    "placeholder tag mutation rejected by Pages 14.5",
+    "Apple Events are not transactional and guards cover only API-visible state",
+    "history starts with available pre-0.5 state; previously overwritten/deleted versions and unavailable prototype bytes cannot be recovered",
+    "batch generation is limited to 10 documents and is not transactional",
+    "named paragraph styles cannot be assigned; semantic style preservation during model filling is not certified"
+  ]
 }

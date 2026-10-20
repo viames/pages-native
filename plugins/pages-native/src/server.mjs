@@ -1,4 +1,3 @@
-import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
-import { createServer } from './server-factory.mjs';
+import { StdioServerTransport, createServer } from './runtime.mjs';
 
 await createServer().connect(new StdioServerTransport());

@@ -92,3 +92,24 @@ test('native text requests use a private data file, keep content out of argv and
   try { const bridge = new PagesBridge({ spawnProcess, platform: 'darwin', lockPath: join(folder, 'lock') }); await bridge.call('text_apply', { document_id: 'd', expected_text: hostile }); assert.equal(existsSync(requestPath), false); }
   finally { rmSync(folder, { recursive: true, force: true }); }
 });
+test('native open uses the fixed path-verifying helper and quarantines an unconfirmed asynchronous open', async () => {
+  const { readFileSync } = await import('node:fs');
+  const folder = mkdtempSync(join(tmpdir(), 'pages-open-request-')); let requestPath, pending = false;
+  const path = '/native/Private " $(command) 日本語.pages';
+  const spawnProcess = (program, argv, options) => {
+    assert.equal(options.shell, false); assert.ok(argv[0].endsWith('open.applescript'));
+    requestPath = argv[1]; assert.ok(!argv.join(' ').includes(path));
+    assert.equal(JSON.parse(readFileSync(requestPath, 'utf8')).args.path, path);
+    const child = new EventEmitter(); child.stdout = new PassThrough(); child.stderr = new PassThrough(); child.stdin = new Writable({ write(c, e, cb) { cb(); } });
+    child.stdin.on('finish', () => { child.stdout.end(JSON.stringify(pending ? { ok: false, error: { code: 'OPEN_PENDING', message: 'Inspect Pages.' } } : { ok: true, result: { document_id: 'exact-path-match', path } })); child.emit('close', 0); });
+    child.kill = () => {}; return child;
+  };
+  try {
+    const bridge = new PagesBridge({ spawnProcess, platform: 'darwin', lockPath: join(folder, 'lock') });
+    assert.equal((await bridge.call('open', { path })).document_id, 'exact-path-match'); assert.equal(existsSync(requestPath), false);
+    pending = true;
+    await assert.rejects(bridge.call('open', { path }), e => e.code === 'OPEN_PENDING');
+    await assert.rejects(bridge.call('open', { path }), e => e.code === 'STATE_UNCERTAIN');
+    assert.equal(existsSync(join(folder, 'lock')), true);
+  } finally { rmSync(folder, { recursive: true, force: true }); }
+});

@@ -35,19 +35,22 @@ test('duplicate placeholder tags require explicit native counts and a current re
   await assert.rejects(c.service.execute('pages_fill_placeholders', { ...input, mode: 'apply', expected_revision: p.revision }), e => e.code === 'MATCH_COUNT');
 });
 test('cell preflight rejects ragged, excessive and unsupported-format writes without writes', async () => {
-  const c = context(() => ({ formats: ['other'] }));
+  const c = context(action => action === 'change_snapshot' ? { cells: [] } : ({ formats: ['other'] }));
   await assert.rejects(c.service.execute('pages_write_cells', { document_id: 'd', table: 1, start: 'A1', values: [[1], [2, 3]] }), e => e.code === 'RAGGED_MATRIX');
   await assert.rejects(c.service.execute('pages_read_cells', { document_id: 'd', table: 1, range: 'A1:C1000' }), e => e.code === 'CELL_LIMIT');
   await assert.rejects(c.service.execute('pages_write_cells', { document_id: 'd', table: 1, start: 'A1', values: [[1]] }), e => e.code === 'UNSUPPORTED_NATIVE_FORMAT');
-  assert.deepEqual(c.calls.map(x => x.action), ['cell_formats']);
+  assert.deepEqual(c.calls.map(x => x.action), ['change_snapshot', 'cell_formats']);
 });
 test('formula objects and hostile literal strings remain typed data; formats are verified', async () => {
   const c = context((action, args) => {
+    if (action === 'change_snapshot') return { cells: [] };
     if (action === 'cell_formats') return { formats: ['text', 'currency'] };
     assert.equal(action, 'write_cells'); assert.equal(args.values[0][0], '=1+1'); assert.deepEqual(args.values[0][1], { formula: '=SUM(10;20)' });
     return { cells: [[{ address: 'A1' }, { address: 'B1' }]], format_expectations: ['text', 'currency'], written: 2 };
   });
-  const r = await c.service.execute('pages_write_cells', { document_id: 'd', table: 1, start: 'A1', values: [['=1+1', { formula: '=SUM(10;20)' }]] });
+  const input = { document_id: 'd', table: 1, start: 'A1', values: [['=1+1', { formula: '=SUM(10;20)' }]] };
+  const p = await c.service.execute('pages_write_cells', input);
+  const r = await c.service.execute('pages_write_cells', { ...input, mode: 'apply', expected_revision: p.revision });
   assert.equal(r.formats_verified, true); assert.deepEqual(r.cells[0].map(x => x.format), ['text', 'currency']);
 });
 test('existing rich text cannot be silently replaced through the object tool', async () => {

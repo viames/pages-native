@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 
 const worker = fileURLToPath(new URL('../native/worker.js', import.meta.url));
 const textWorker = fileURLToPath(new URL('../native/text.applescript', import.meta.url));
+const openWorker = fileURLToPath(new URL('../native/open.applescript', import.meta.url));
 const helperActions = new Set(['text_snapshot', 'text_apply', 'text_format', 'cell_formats', 'fill_placeholders']);
 export class NativeError extends Error {
   constructor(code, message, details = {}) { super(message); this.code = code; this.details = details; }
@@ -39,10 +40,10 @@ export class PagesBridge {
     if (this.#uncertain) throw new NativeError('STATE_UNCERTAIN', 'Inspect Pages before restarting this server.');
     const request = JSON.stringify({ action, args });
     let folder, argv = ['-l', 'JavaScript', worker];
-    if (helperActions.has(action)) {
+    if (helperActions.has(action) || action === 'open') {
       folder = mkdtempSync(join(tmpdir(), 'pages-native-request-'));
       const path = join(folder, 'request.json'); writeFileSync(path, request, { mode: 0o600 });
-      argv = [textWorker, path];
+      argv = [action === 'open' ? openWorker : textWorker, path];
     }
     try {
       return await new Promise((resolve, reject) => {
@@ -62,7 +63,7 @@ export class PagesBridge {
           try { response = JSON.parse(output); }
           catch { this.#uncertain = true; return reject(new NativeError('INVALID_NATIVE_RESPONSE', 'Native response could not be decoded; inspect Pages before restarting.', { diagnostic })); }
           if (!response.ok) {
-            if (response.error.code === 'APPLE_EVENT_TIMEOUT') this.#uncertain = true;
+            if (['APPLE_EVENT_TIMEOUT', 'OPEN_PENDING'].includes(response.error.code)) this.#uncertain = true;
             return reject(new NativeError(response.error.code, response.error.message, response.error.details));
           }
           resolve(response.result);

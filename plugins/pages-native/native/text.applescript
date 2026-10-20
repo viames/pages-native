@@ -150,6 +150,15 @@ on run argv
           end repeat
           resultData's setObject:completedCount forKey:"completed_edits"
         else if actionName is "text_format" then
+          set expectedStyle to args's objectForKey:"_expected_style"
+          if expectedStyle is missing value then error "PREVIEW_REQUIRED: Preview native formatting before applying it." number -2710
+          if not ((current application's NSString's stringWithString:originalText)'s isEqualToString:((expectedStyle's objectForKey:"text") as text)) then error "REVISION_CHANGED: Text changed before formatting." number -2705
+          set currentFonts to current application's NSArray's arrayWithArray:(font of every character of richText)
+          set currentSizes to current application's NSArray's arrayWithArray:(size of every character of richText)
+          set currentColors to current application's NSArray's arrayWithArray:(color of every character of richText)
+          if not (currentFonts's isEqualToArray:(expectedStyle's objectForKey:"fonts")) then error "REVISION_CHANGED: Font changed before formatting." number -2705
+          if not (currentSizes's isEqualToArray:(expectedStyle's objectForKey:"sizes")) then error "REVISION_CHANGED: Font size changed before formatting." number -2705
+          if not (currentColors's isEqualToArray:(expectedStyle's objectForKey:"colors")) then error "REVISION_CHANGED: Text color changed before formatting." number -2705
           set firstIndex to (args's objectForKey:"first") as integer
           set lastIndex to (args's objectForKey:"last") as integer
           if firstIndex < 1 or lastIndex < firstIndex or lastIndex > (count nativeCharacters) then error "TEXT_RANGE: Formatting range exceeds native characters." number -2706
@@ -171,7 +180,7 @@ on run argv
         resultData's setObject:(every character of richText) forKey:"characters"
         resultData's setObject:(every paragraph of richText) forKey:"paragraphs"
         set withStyles to args's objectForKey:"include_styles"
-        if withStyles is not missing value and withStyles as boolean is true then
+        if actionName is "text_format" or (withStyles is not missing value and withStyles as boolean is true) then
           if (count nativeCharacters) > 10000 then error "STYLE_LIMIT: Choose a smaller text target for per-character styles." number -2708
           resultData's setObject:(font of every character of richText) forKey:"fonts"
           resultData's setObject:(size of every character of richText) forKey:"sizes"
@@ -190,6 +199,7 @@ on run argv
     if errorNumber is -2705 then set errorCode to "REVISION_CHANGED"
     if errorNumber is -2706 then set errorCode to "TEXT_RANGE"
     if errorNumber is -2708 then set errorCode to "STYLE_LIMIT"
+    if errorNumber is -2710 then set errorCode to "PREVIEW_REQUIRED"
     if actionName is "fill_placeholders" then
       if completedCount > 0 then
         set errorCode to "PARTIAL_WRITE"

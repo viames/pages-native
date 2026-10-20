@@ -11,10 +11,10 @@ async function connect(bridge) { const s = createServer({ bridge, roots: [] }), 
 test('official MCP client discovers strict schemas, calls tools and receives bounded errors', async () => {
   const calls = [], c = await connect({ exclusive: fn => fn({ call: async (action, args) => { calls.push({ action, args }); return { automation_tested: false }; } }) });
   try {
-    const listed = await c.c.listTools(); assert.equal(listed.tools.length, 28); assert.equal(listed.tools.length, tools.length);
+    const listed = await c.c.listTools(); assert.equal(listed.tools.length, 36); assert.equal(listed.tools.length, tools.length);
     assert.equal(listed.tools.find(t => t.name === 'pages_edit_text').inputSchema.additionalProperties, false);
     assert.equal(listed.tools.find(t => t.name === 'pages_read_text').annotations.readOnlyHint, true);
-    const r = await c.c.callTool({ name: 'pages_status', arguments: {} }); assert.equal(r.structuredContent.plugin_version, '0.1.0'); assert.equal(calls[0].args.launch, false);
+    const r = await c.c.callTool({ name: 'pages_status', arguments: {} }); assert.equal(r.structuredContent.plugin_version, '0.5.0'); assert.equal(calls[0].args.launch, false);
     const bad = await c.c.callTool({ name: 'pages_status', arguments: { extra: true } }); assert.equal(bad.isError, true);
     const range = await c.c.callTool({ name: 'pages_read_cells', arguments: { document_id: 'd', table: 1, range: 'A1:C1000' } }); assert.equal(range.isError, true); assert.match(range.content[0].text, /CELL_LIMIT/); assert.equal(calls.length, 1);
   } finally { await c.close(); }

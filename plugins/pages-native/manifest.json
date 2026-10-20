@@ -2,9 +2,9 @@
   "manifest_version": "0.3",
   "name": "pages-native",
   "display_name": "Pages Native",
-  "version": "0.1.0",
+  "version": "0.5.0",
   "description": "Native Apple Pages documents through the macOS scripting API. Preview verified on Pages 14.5.",
-  "long_description": "Native .pages documents, guarded rich-text edits, native templates and existing placeholders, tables and formulas, objects, explicit exports and PDF/PNG previews. Requires macOS, Apple Pages, Node.js 22+ and Automation permission. Preview verified on one Mac with Pages 14.5. No Accessibility or Word conversion backend.",
+  "long_description": "36 native tools for .pages documents: guarded edits, structured search, guided templates with typed table fields, reusable recipes, batches of up to 10 new documents, local recipe history and restoration, objects, explicit exports and PDF/PNG previews. Requires macOS, Apple Pages, Node.js 22+ and Automation permission. Verified configurations are documented separately. No Accessibility or Word conversion backend; named paragraph styles are not exposed.",
   "author": {
     "name": "Viames Marino",
     "url": "https://github.com/viames"

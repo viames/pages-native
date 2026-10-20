@@ -1,8 +1,8 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "pages-native",
-  "version": "0.1.0",
-  "description": "Native Apple Pages documents through the macOS scripting API. Preview verified on Pages 14.5.",
+  "version": "0.5.0",
+  "description": "Native Apple Pages with guarded edits, guided templates, batch generation and local recipe history.",
   "author": {
     "name": "Viames Marino",
     "url": "https://github.com/viames"
@@ -24,7 +24,7 @@
       "interface": {
         "displayName": "Pages Native",
         "shortDescription": "Work directly with Apple Pages",
-        "longDescription": "Native .pages documents, guarded rich-text edits, native templates and existing placeholders, tables and formulas, objects, explicit exports and PDF/PNG previews. Requires macOS, Apple Pages, Node.js 22+ and Automation permission. Preview verified on one Mac with Pages 14.5. No Accessibility or Word conversion backend.",
+        "longDescription": "Native .pages documents, structured search, guarded text and typed table edits, reusable model recipes, batches of up to 10 new documents, recipe history with saved prototypes and restoration, objects, explicit exports and PDF/PNG previews. Requires macOS, Apple Pages, Node.js 22+ and Automation permission. No Accessibility or Word conversion backend. Named paragraph styles and chart series editing are not exposed.",
         "developerName": "Viames Marino",
         "category": "Productivity",
         "capabilities": [
