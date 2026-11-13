@@ -4,6 +4,8 @@
 
 [Get started](#requirements-and-installation) · [Native output](#native-output) · [Capabilities](#capabilities) · [Italiano](README.it.md) · [Verification](docs/VERIFICATION.md)
 
+[MCP Registry](https://registry.modelcontextprotocol.io/v0.1/servers/io.github.viames%2Fpages-native/versions/0.5.0) · [Glama](https://glama.ai/mcp/servers/viames/pages-native) · [MCP Servers](https://mcpservers.org/servers/viames/pages-native)
+
 [![Listed on mcpservers.org](https://mcpservers.org/badge.svg)](https://mcpservers.org/servers/viames/pages-native)
 
 Native Apple Pages documents for Codex and MCP. **Author: Viames Marino · MIT.**

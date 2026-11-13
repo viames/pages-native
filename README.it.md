@@ -2,6 +2,8 @@
 
 # Pages Native
 
+[Registro MCP](https://registry.modelcontextprotocol.io/v0.1/servers/io.github.viames%2Fpages-native/versions/0.5.0) · [Glama](https://glama.ai/mcp/servers/viames/pages-native) · [MCP Servers](https://mcpservers.org/servers/viames/pages-native)
+
 [![Listed on mcpservers.org](https://mcpservers.org/badge.svg)](https://mcpservers.org/servers/viames/pages-native)
 
 Plugin Codex e server MCP per documenti **Apple Pages nativi**, di **Viames Marino**, licenza **MIT**.
