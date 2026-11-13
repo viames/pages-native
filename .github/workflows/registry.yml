@@ -6,6 +6,10 @@ on:
         description: Existing release tag with verified MCPB and server.json assets
         required: true
         default: v0.5.0
+      catalog_revision:
+        description: Publish the catalog-only revision while preserving the verified release bundle
+        type: boolean
+        default: false
 permissions:
   contents: read
 jobs:
@@ -46,6 +50,15 @@ jobs:
           assert p['identifier'] == f"https://github.com/viames/pages-native/releases/download/{os.environ['RELEASE_TAG']}/{filename}"
           assert hashlib.sha256(pathlib.Path(filename).read_bytes()).hexdigest() == p['fileSha256']
           PY
+      - name: Check out reviewed catalog metadata
+        if: ${{ inputs.catalog_revision }}
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          path: catalog-source
+      - name: Prepare presentation-only registry revision
+        if: ${{ inputs.catalog_revision }}
+        run: python3 catalog-source/scripts/prepare_catalog.py server.json
       - name: Download pinned official publisher and verify checksum
         run: |
           curl --fail --location --output publisher.tar.gz https://github.com/modelcontextprotocol/registry/releases/download/v1.8.1/mcp-publisher_linux_amd64.tar.gz

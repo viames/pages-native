@@ -10,7 +10,7 @@ Version 0.5 passed **76 native checks on one Mac** and **70 portable tests** sep
 | --- | --- |
 | [GitHub repository](https://github.com/viames/pages-native) | Public source and [v0.5.0 release](https://github.com/viames/pages-native/releases/tag/v0.5.0) with plugin ZIP, marketplace ZIP, MCPB, registry metadata and SHA-256 checksums. |
 | [Project site](https://viames.github.io/pages-native/) | GitHub Pages serves `main/docs`; release and verification links identify 0.5.0. |
-| [Official MCP Registry](https://registry.modelcontextprotocol.io/v0.1/servers/io.github.viames%2Fpages-native/versions/0.5.0) | Version 0.5.0 is active in the live registry, verified on 13 November 2026. Its record links to the checksummed macOS MCPB. Updates use the release workflow with short-lived GitHub OIDC. |
+| [Official MCP Registry](https://registry.modelcontextprotocol.io/v0.1/servers/io.github.viames%2Fpages-native/versions/0.5.1-catalog.1) | Catalog revision `0.5.1-catalog.1` adds the project icon and current description while linking to the unchanged, checksummed 0.5.0 macOS MCPB. Updates use the release workflow with short-lived GitHub OIDC. |
 | [MCP Servers](https://mcpservers.org/servers/viames/pages-native) | Public listing verified on 20 October 2026. README refresh requested; directory caches may lag the repository. |
 | [Glama](https://glama.ai/mcp/servers/viames/pages-native) | Public source listing verified on 20 October 2026. Repository synchronization updates the indexed README. The local-only Pages server cannot be deployed in Glama's cloud. |
 | [Claude Desktop extensions](https://support.claude.com/en/articles/12922490-building-desktop-extensions-with-mcpb) | Version 0.5.0 MCPB submitted on 13 November 2026; the official submission form confirmed receipt. Review and inclusion are pending. |
@@ -29,3 +29,9 @@ The locally installed Codex plugin is `pages-native@viames-pages`. The public ma
 The standalone plugin ZIP is prepared for OpenAI-directory submission. Upload requires a verified developer identity; local MCP eligibility and review are external gates. No OpenAI upload or approval is claimed. See the [submission](https://developers.openai.com/plugins/deploy/submission) and [desktop-only](https://developers.openai.com/plugins/deploy/desktop-only) requirements. Keep the native local-execution requirement. Do not purchase premium placement or create cloud hosting for this macOS-only plugin. Smithery's last Numbers Native publishing attempt returned HTTP 403 and said server updates were removed; it needs a concrete supported local publishing path rather than repeated failed uploads. MCP.so was excluded because its live form required payment.
 
 A release upload or listing does not establish native compatibility on every Mac. Named paragraph styles, comments, tracked changes and chart series/type/title remain outside the public scripting API used here.
+
+## Catalog presentation revisions
+
+Registry revision `0.5.1-catalog.1` refreshes the description and adds the project icon. It references the unchanged, checksummed `0.5.0` macOS MCPB; it is not a new native runtime release or new compatibility evidence. The semantic prerelease suffix keeps the future regular `0.5.1` namespace available.
+
+Dispatch `registry.yml` with `tag=v0.5.0` and `catalog_revision=true`. The existing release verification runs first. The additional preparation step preserves server identity, website, repository and all package URLs/checksums, validates the owned public PNG against source, and changes only version, description and icon. Authentication still uses the existing short-lived GitHub identity. Other invocations retain the regular release publication path. Inspect the live record after publication.
