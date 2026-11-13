@@ -1,3 +1,5 @@
+![Pages Native — Real documents. Native format.](https://raw.githubusercontent.com/viames/pages-native/main/.github/assets/cover.jpg)
+
 # Pages Native
 
 [![Listed on mcpservers.org](https://mcpservers.org/badge.svg)](https://mcpservers.org/servers/viames/pages-native)
